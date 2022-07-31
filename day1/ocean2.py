@@ -3,13 +3,13 @@ import csv
 
 
 def read_dept_list():
-    f = open("dept_list.csv", "r")
-    data = list(csv.reader(f, delimiter='\t'))
+    f = open("input.txt", "r")
+    data = f.readlines()
     return data
 
 
 def convert_to_int(data):
-    temp = int(data[0])
+    temp = int(data)
     return temp
 
 
@@ -28,7 +28,7 @@ def sum_each_three(dept_list):
     list_of_sum = []
     while i < (len(dept_list)-2):
         total_sum = convert_to_int(dept_list[i]) + convert_to_int(dept_list[i+1]) + convert_to_int(dept_list[i+2])
-        list_of_sum.insert(i, total_sum)
+        list_of_sum.append(total_sum)
         i += 1
     return list_of_sum
 
