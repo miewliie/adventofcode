@@ -13,18 +13,20 @@ def split_str_num(instruction):
 
 def calculate_instruction(inst_list):
     horizontal_position = 0
-    dept_position = 0
+    depth_position = 0
+    aim = 0
     i = 0
     while i < len(inst_list):
         result = split_str_num(inst_list[i])
         if result[0] == "forward":
             horizontal_position = horizontal_position + int(result[1])
+            depth_position = depth_position + (aim * int(result[1]))
         elif result[0] == "down":
-            dept_position = dept_position + int(result[1])
+            aim = aim + int(result[1])
         else:
-            dept_position = dept_position - int(result[1])
+            aim = aim - int(result[1])
         i += 1
-    print('(hori: ', horizontal_position, ' * dept: ', dept_position, ') total = ', (horizontal_position * dept_position))
+    print('horizontal * depth = ', horizontal_position * depth_position)
 
 
 if __name__ == '__main__':
