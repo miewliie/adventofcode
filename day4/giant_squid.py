@@ -38,21 +38,16 @@ def final_score_of_won_board(bingo_result_board, bingo_number):
 def is_bingo(marked_board):
     # check for bingo on rows
     for row in marked_board:
-        if row.count(row[0]) == len(row):
+        if row.count('*') == len(row):
             return True
 
     # check for bingo on columns
-    num_col_list = []
-
-    for row_index in range(len(marked_board)):
-        row = marked_board[row_index]
-        for col_index in range(len(row)):
-            if len(num_col_list) <= col_index:
-                num_col_list.append([])
-            num_col_list[col_index].append(row[col_index])
-
-    for col in num_col_list:
-        if col.count(col[0]) == len(col):
+    for c in range(5):
+        count = 0
+        for r in range(5):
+            if marked_board[r][c] == '*':
+                count += 1
+        if count == 5:
             return True
 
     return False
