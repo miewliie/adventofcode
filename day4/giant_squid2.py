@@ -19,8 +19,8 @@ def calculate_instruction(input_data):
         bingo_result = play_bingo(bingo_number, boards)
         if len(bingo_result) > 0:
             break
-    # finding the sum of all unmarked numbers on that board
-    # multiply that sum by the number that was just called when the board won
+    # finding the sum of all unmarked numbers on that last board won
+    # multiply that sum by the number that was called when the board won
     final_score_of_won_board(bingo_result, bingo_number)
 
 
@@ -59,23 +59,20 @@ def play_bingo_single_board(bingo_number, board):
                 row[item] = row[item].replace(row[item], '*')
 
 
-def count_board_won(boards):
-    count = 0
-    for board in boards:
-        if board == []:
-            count += 1
-    return count
-
-
 def play_bingo(bingo_number, boards):
+    winning_board_position = []
     for index in range(len(boards)):
-        if not boards[index] == []:
-            play_bingo_single_board(bingo_number, boards[index])
-            if is_bingo(boards[index]):
-                if len(boards) - count_board_won(boards) == 1:
-                    return boards[index]
-                else:
-                    boards[index].clear()
+        play_bingo_single_board(bingo_number, boards[index])
+        if is_bingo(boards[index]):
+            winning_board_position.insert(0, index)
+
+    if len(winning_board_position) > 0 and len(boards) == 1:
+        return boards[0]
+
+    # delete winning boards
+    for position in winning_board_position:
+        del boards[position]
+
     return []
 
 
