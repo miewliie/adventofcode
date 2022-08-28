@@ -1,6 +1,7 @@
 from line import Line
 from point import Point
 
+
 def read_dept_list():
     f = open("puzzle_input.txt", "r")
     input_data = f.readlines()
@@ -52,74 +53,17 @@ def find_area_line_overlap(diagram):
 
 
 def draw_diagram_with_input(diagram, line):
-    if is_vertical_line(line):
-        draw_vertical_diagram(diagram, line)
-    elif is_horizontal_line(line):
-        draw_horizontal_diagram(diagram, line)
-    else:
-        draw_diagonal_diagram(diagram, line)
+    current_point = line.point_a
+    target_point = line.point_b
+    diagram[current_point.y][current_point.x] += 1
 
+    direction_x = 0 if current_point.x == target_point.x else (1 if current_point.x < target_point.x else -1)
+    direction_y = 0 if current_point.y == target_point.y else (1 if current_point.y < target_point.y else -1)
 
-def draw_diagonal_diagram(diagram, line):
-    # both X,Y changed for both points
-    if line.point_a.x < line.point_b.x and line.point_a.y < line.point_b.y:
-        while line.point_a.x <= line.point_b.x and line.point_a.y <= line.point_b.y:
-            diagram[line.point_a.y][line.point_a.x] += 1
-            line.point_a.x += 1
-            line.point_a.y += 1
-    elif line.point_a.x < line.point_b.x and line.point_a.y > line.point_b.y:
-        while line.point_a.x <= line.point_b.x and line.point_a.y >= line.point_b.y:
-            diagram[line.point_a.y][line.point_a.x] += 1
-            line.point_a.x += 1
-            line.point_a.y -= 1
-    elif line.point_a.x > line.point_b.x and line.point_a.y > line.point_b.y:
-        while line.point_a.x >= line.point_b.x and line.point_a.y >= line.point_b.y:
-            diagram[line.point_a.y][line.point_a.x] += 1
-            line.point_a.x -= 1
-            line.point_a.y -= 1
-    elif line.point_a.x > line.point_b.x and line.point_a.y < line.point_b.y:
-        while line.point_a.x >= line.point_b.x and line.point_a.y <= line.point_b.y:
-            diagram[line.point_a.y][line.point_a.x] += 1
-            line.point_a.x -= 1
-            line.point_a.y += 1
-    else:
-        diagram[line.point_a.y][line.point_a.x] += 1
-
-
-def draw_horizontal_diagram(diagram, line):
-    # horizontal cause Y changed + X never changed
-    if line.point_a.x < line.point_b.x:
-        while line.point_a.x <= line.point_b.x:
-            diagram[line.point_a.y][line.point_a.x] += 1
-            line.point_a.x += 1
-    elif line.point_b.x < line.point_a.x:
-        while line.point_b.x <= line.point_a.x:
-            diagram[line.point_a.y][line.point_b.x] += 1
-            line.point_b.x += 1
-    else:
-        diagram[line.point_a.y][line.point_a.x] += 1
-
-
-def draw_vertical_diagram(diagram, line):
-    # vertical cause X changed + Y never changed
-    if line.point_a.y < line.point_b.y:
-        while line.point_a.y <= line.point_b.y:
-            diagram[line.point_a.y][line.point_a.x] += 1
-            line.point_a.y += 1
-    elif line.point_b.y < line.point_a.y:
-        while line.point_b.y <= line.point_a.y:
-            diagram[line.point_b.y][line.point_a.x] += 1
-            line.point_b.y += 1
-    else:
-        diagram[line.point_b.y][line.point_a.x] += 1
-
-
-def is_horizontal_line(line):
-    return line.point_a.y == line.point_b.y
-
-
-def is_vertical_line(line):
-    return line.point_a.x == line.point_b.x
+    while not current_point == target_point:
+        current_point.x += direction_x
+        current_point.y += direction_y
+        diagram[current_point.y][current_point.x] += 1
 
 
 def draw_empty_diagram(max_number):
