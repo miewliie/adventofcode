@@ -1,2 +1,2 @@
-# My advent of code journey - 2022
+# My advent of code journey
 - https://adventofcode.com/2021
